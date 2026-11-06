@@ -1,0 +1,90 @@
+@startuml use-case-diagram
+title WildTrack RAD – Use Cases
+
+left to right direction
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+
+actor "Field Ranger" as Ranger
+actor "Supervisor" as Supervisor
+actor "Law Enforcement Liaison" as Liaison
+actor "System Administrator" as Admin
+actor "Rehabilitation Veterinarian" as Vet
+actor "Partner Recipient\n(police/sheriff, U.S. Fish & Wildlife,\nland manager)" as Partner
+
+rectangle "WildTrack RAD" {
+  rectangle "Authoring" {
+    usecase "Create report\n[FR-01, FR-06, FR-10]" as UC_Create
+    usecase "Save draft / work offline\n[FR-02, FR-07]" as UC_Draft
+    usecase "Attach photos\n[FR-09]" as UC_Photos
+    usecase "Submit report\n(sends now, or queues offline\nand syncs when connected)\n[FR-03, FR-08, FR-12]" as UC_Submit
+    usecase "Validate required fields\nand evidence details\n[FR-03, FR-11]" as UC_Validate
+    usecase "Send urgent vet notice\n[FR-18]" as UC_Urgent
+  }
+  rectangle "Review" {
+    usecase "View review queue and alerts\n[FR-17, FR-30]" as UC_Queue
+    usecase "Approve/reject report\n[FR-04]" as UC_Approve
+    usecase "Perform liaison review\n[FR-13, FR-33]" as UC_Liaison
+    usecase "Delegate review authority\n[FR-31]" as UC_Delegate
+  }
+  rectangle "Dissemination" {
+    usecase "Grant disclosure exception\n[FR-20]" as UC_Exception
+    usecase "Disseminate report\n[FR-05, FR-29]" as UC_Disseminate
+    usecase "Receive urgent vet notice\n[FR-18]" as UC_ReceiveUrgent
+    usecase "View authorized/redacted report\n[FR-05, FR-19]" as UC_ViewRedacted
+    usecase "Confirm receipt\n[FR-21]" as UC_Receipt
+    usecase "Download marked PDF\n[FR-22, FR-32]" as UC_PDF
+  }
+  rectangle "Administration" {
+    usecase "Manage users and roles\n[FR-25]" as UC_Users
+    usecase "Manage sensitive species list\n[FR-26]" as UC_Species
+    usecase "Maintain report templates\n[FR-27]" as UC_Templates
+  }
+}
+
+' --- Actor associations ---
+Ranger --> UC_Create
+Ranger --> UC_Photos
+Ranger --> UC_Submit
+Ranger --> UC_Urgent
+
+Supervisor --> UC_Queue
+Supervisor --> UC_Approve
+Supervisor --> UC_Delegate
+Supervisor --> UC_Exception
+Supervisor --> UC_Disseminate
+
+Liaison --> UC_Queue
+Liaison --> UC_Liaison
+
+UC_ReceiveUrgent <-- Vet
+
+UC_ViewRedacted <-- Partner
+UC_Receipt <-- Partner
+UC_PDF <-- Partner
+
+Admin --> UC_Users
+Admin --> UC_Species
+Admin --> UC_Templates
+
+' --- Relationships ---
+UC_Draft ..> UC_Create : <<extend>>
+UC_Submit ..> UC_Validate : <<include>>
+UC_Liaison ..> UC_Approve : <<extend>>\n[report includes\npoaching incident type]
+
+note right of UC_Liaison
+  Extension point: after supervisor approval.
+  Condition: the report includes the poaching
+  incident type (including multi-type reports).
+  Return route on liaison rejection: FR-33,
+  open customer decision.
+end note
+
+note bottom of UC_Submit
+  Offline sync (FR-08) is system behavior, not an actor goal,
+  so it is part of Submit report rather than a separate use case.
+  See interface IF-02.
+end note
+
+@enduml

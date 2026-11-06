@@ -1,0 +1,67 @@
+@startuml context-diagram
+title WildTrack RAD – System Context
+
+top to bottom direction
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam rectangle {
+  BackgroundColor<<subsystem>> #EAF2F8
+  BorderColor<<subsystem>> #1F4E79
+  BackgroundColor<<external system>> #F4F4F4
+  BorderColor<<external system>> #666666
+}
+
+' ---------- People (user interactions, not interface-table entries) ----------
+actor "Field Ranger" as Ranger
+actor "Supervisor" as Supervisor
+actor "Law Enforcement Liaison" as Liaison
+actor "System Administrator" as Admin
+actor "Rehabilitation Veterinarian" as Vet
+actor "Partner Recipient\n(police/sheriff, U.S. Fish & Wildlife,\nland manager)" as Partner
+
+rectangle "Email / notification service" <<external system>> as Email
+
+' ---------- System boundary ----------
+rectangle "WildTrack RAD  (system boundary)" as WT {
+  rectangle "iPad app\n(authoring, offline drafts,\nqueued notices)" <<subsystem>> as App
+  rectangle "WildTrack server\n(workflow, redaction policy,\naudit log, partner web view)" <<subsystem>> as Server
+}
+
+' ---------- External systems ----------
+rectangle "State-issued iPad\n(hardware + iPadOS, MDM)" <<external system>> as IPad
+rectangle "State SSO" <<external system>> as SSO
+rectangle "Biologist-maintained\nsensitive species list\n(source/format TBD)" <<external system>> as Species
+rectangle "PDF renderer\n(internal vs third-party TBD)" <<external system>> as PDF
+
+' ---------- User interactions ----------
+Ranger --> App : create/edit reports, drafts,\nphotos, urgent notice
+Supervisor --> Server : review queue, approve/reject,\nselect recipients, exceptions, delegation
+Liaison --> Server : secondary review\nand decision
+Admin --> Server : manage users, roles,\ntemplates, species rules
+
+' ---------- Platform ----------
+App ..> IPad : runs on\n(local encrypted storage)
+
+' ---------- Interfaces (numbering matches the spec's External Interfaces table) ----------
+App <--> Server : IF-02 (internal): report/photo sync,\nqueued notices, sync state
+Server <--> SSO : IF-01: login request,\nidentity and role/group claims
+Server --> Email : IF-03: partner links/codes,\nranger and reviewer alerts, urgent notices
+Email --> Ranger : IF-03 delivery: status,\nrejection/change notices
+Email --> Supervisor : IF-03 delivery:\naction alerts
+Email --> Liaison : IF-03 delivery:\naction alerts
+Email --> Vet : IF-03 delivery: minimal urgent notice\n(species, condition, pickup location)
+Partner <--> Server : IF-04 partner web view: code,\nauthorized report, PDF, receipt
+Species --> Server : IF-05: species identifiers,\nsensitivity, effective date
+Server --> PDF : IF-06: redacted report fields,\nrecipient name, download time
+PDF --> Server : IF-06: generated PDF
+
+note bottom of WT
+  Boundary decision: the iPad app and the server are both part of WildTrack,
+  so IF-02 is an INTERNAL interface between subsystems. The iPad hardware,
+  iPadOS and MDM are external platform dependencies owned by State IT.
+  Only system-to-system connections are interface-table entries;
+  actor links show user interactions.
+end note
+
+@enduml

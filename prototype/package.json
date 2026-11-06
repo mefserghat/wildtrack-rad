@@ -1,0 +1,13 @@
+{
+  "name": "wildtrack-rad-prototype",
+  "version": "0.1.0",
+  "description": "WildTrack RAD prototype: Save Draft (FR-02) and recipient-specific redaction (FR-05). Fictional portfolio project.",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "engines": { "node": ">=18" },
+  "license": "UNLICENSED"
+}

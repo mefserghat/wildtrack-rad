@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WildTrack RAD – Prototype</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">WildTrack <span>RAD</span></div>
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="author" role="tab" aria-selected="true">Ranger: Author report</button>
+      <button class="tab" data-tab="view" role="tab" aria-selected="false">View as recipient</button>
+    </nav>
+    <div class="who">Signed in as <strong>Ranger Sam Lee</strong> <span class="muted">(r-117, simulated)</span></div>
+  </header>
+
+  <main>
+    <!-- ================= Story 1: Author + Save Draft ================= -->
+    <section id="tab-author" class="panel">
+      <div class="layout">
+        <form id="report-form" class="card" novalidate>
+          <div class="card-head">
+            <h2 id="form-title">New incident report</h2>
+            <span id="status-pill" class="pill">Not saved</span>
+          </div>
+          <p class="hint">Report number: <strong id="report-number">Number pending</strong></p>
+
+          <fieldset>
+            <legend>Incident type <span class="req">*</span> <span class="muted">(select all that apply)</span></legend>
+            <div class="checks" id="incident-types"></div>
+          </fieldset>
+
+          <label>Species <span class="req">*</span>
+            <input name="species" list="species-list" placeholder="e.g., Bald eagle">
+            <datalist id="species-list"></datalist>
+          </label>
+          <p id="sensitive-flag" class="flag hidden">Sensitive species: location will be restricted for some recipients.</p>
+
+          <div class="row">
+            <label>Latitude <span class="req">*</span><input name="lat" inputmode="decimal" placeholder="44.123456"></label>
+            <label>Longitude <span class="req">*</span><input name="lng" inputmode="decimal" placeholder="-105.678912"></label>
+            <label>County <span class="req">*</span><input name="county" placeholder="Pine County"></label>
+          </div>
+          <label>Location description<input name="description" placeholder="Landmarks, trail, distance from trailhead"></label>
+
+          <label>Narrative <span class="req">*</span>
+            <textarea name="narrative" rows="4" placeholder="What happened and what you did"></textarea>
+          </label>
+
+          <div class="row">
+            <label>Witness / reporting party<input name="witnessName" placeholder="Name"></label>
+            <label>Phone<input name="witnessPhone" placeholder="555-0100"></label>
+          </div>
+
+          <fieldset id="evidence-section" class="hidden">
+            <legend>Evidence <span class="req">*</span> <span class="muted">(required for poaching)</span></legend>
+            <div class="row">
+              <label>Item<input name="evItem" placeholder="Spent casing"></label>
+              <label>Collected by<input name="evCollector" placeholder="Ranger Sam Lee"></label>
+            </div>
+            <div class="row">
+              <label>Collected at<input name="evCollectedAt" type="datetime-local"></label>
+              <label>Storage location<input name="evStorage" placeholder="Evidence locker, bag #"></label>
+            </div>
+          </fieldset>
+
+          <div id="form-message" class="message hidden" role="status" aria-live="polite"></div>
+
+          <div class="actions">
+            <button type="button" id="btn-new" class="secondary">New report</button>
+            <button type="button" id="btn-save" class="secondary">Save draft</button>
+            <button type="button" id="btn-submit" class="primary">Submit for approval</button>
+          </div>
+        </form>
+
+        <aside class="card">
+          <h2>My drafts</h2>
+          <p class="hint">Only you can see your drafts.</p>
+          <ul id="drafts" class="list"></ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ================= Story 2: Recipient-specific redaction ================= -->
+    <section id="tab-view" class="panel hidden">
+      <div class="card controls">
+        <label>Report
+          <select id="report-select"></select>
+        </label>
+        <label>View as
+          <select id="role-select"></select>
+        </label>
+        <p class="hint">Redaction happens on the server. Open dev tools → Network to see that the API response itself contains no restricted values.</p>
+      </div>
+
+      <div class="layout">
+        <article class="card" id="recipient-view"></article>
+        <aside class="card">
+          <h2>Raw API response</h2>
+          <p class="hint" id="api-call"></p>
+          <pre id="raw-json"></pre>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer>Prototype for portfolio purposes. Fictional agency and data. Simulated identity; production uses State SSO (IF-01).</footer>
+  <script src="app.js"></script>
+</body>
+</html>
