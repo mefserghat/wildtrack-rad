@@ -12,3 +12,10 @@ npm-debug.log*
 # Astah backup files
 *.asta.bak
 *.bak
+
+# Personal documents (never commit)
+*.docx
+*.pdf
+
+# Personal prep notes (kept locally)
+05_demo_script.md

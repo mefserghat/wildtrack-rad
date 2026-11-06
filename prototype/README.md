@@ -23,7 +23,7 @@ Run the automated tests:
 node --test
 ```
 
-## Demo walkthrough (matches 05_demo_script.md)
+## Demo walkthrough
 
 1. **Ranger: Author report** tab. Check *Injured / dead wildlife* and *Suspected poaching*, type **Bald eagle** (the sensitive-species banner appears), fill a field or two, and click **Save draft**. The draft appears in *My drafts*.
 2. Click **New report**, then reopen the draft from *My drafts*. Every field is restored.

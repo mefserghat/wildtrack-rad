@@ -2,7 +2,7 @@
 
 **A requirements-to-delivery systems engineering project:** from a stakeholder interview to a requirements spec, Agile backlog, system models, a working prototype, and traced test results.
 
-▶️ **[Watch the 3-minute demo](LINK-TO-LOOM-VIDEO)** · 📄 **[Requirements spec](02_requirements_spec.md)** · 🧪 **[Prototype](prototype/)**
+▶️ **[Watch the 4-minute walkthrough](LINK-TO-LOOM-VIDEO)** · 📄 **[Requirements spec](02_requirements_spec.md)** · 🧪 **[Prototype](prototype/)**
 
 ---
 
@@ -25,7 +25,7 @@ I gathered requirements in a simulated customer interview, wrote **33 functional
 | UX collaboration | [Wireframes](wireframes/) |
 | Software concepts: REST API, server-side enforcement | [Prototype](prototype/) |
 | Functional testing and traceability | [Test cases](04_test_cases.csv), [traceability matrix](04_traceability_matrix.csv), [automated tests](prototype/test/api.test.js) |
-| Customer presentation | [Demo script](05_demo_script.md) and video |
+| Presenting technical work to non-technical audiences | Walkthrough video (link at the top) |
 
 ## Why this scenario
 
@@ -50,6 +50,18 @@ WildTrack has two subsystems, an offline-capable iPad app and a server, and conn
 - **Combined incidents use the strictest rules.** A shot eagle is both injured wildlife and poaching, so the report must meet the required fields of every selected type, including poaching evidence. ([TR-03.2](02_requirements_spec.md))
 - **Offline-safe report numbers.** A device can't guarantee a unique sequential number without a connection, so each report gets a UUID when it's created, and the server assigns the readable number (`NR-2026-00042`) when it syncs. ([TR-10](02_requirements_spec.md))
 - **Urgent animal care isn't held up by approvals.** A minimal notice (species, condition, pickup location) can go to a rehab vet before approval; when offline, it's queued and clearly shown as "queued, not sent." ([TR-18](02_requirements_spec.md))
+
+## Prototype
+
+**One report, different views.** The same approved bald eagle poaching report, as a land manager sees it (left) and as police see it (right). The raw API response on each screen shows that restricted values are never sent to the land manager's browser.
+
+| Land manager: location within ~1 mile, witness and evidence withheld | State police on a poaching case: full details |
+|---|---|
+| ![Land manager view of the eagle report with generalized location and redacted fields](prototype/screenshots/02-recipient-land-manager.png) | ![Police view of the same report with full details](prototype/screenshots/03-recipient-police.png) |
+
+**Draft and validation.** A ranger saves a draft, and the server blocks submission until every required field is complete, including poaching evidence on a combined injured-wildlife and poaching report.
+
+![Ranger report form with a saved draft and the server's list of missing required fields](prototype/screenshots/01-ranger-draft-and-validation.png)
 
 ## Finding from testing
 
@@ -83,7 +95,6 @@ node --test         # runs the 13 automated tests
 03_jira_backlog.csv              epics and user stories with acceptance criteria (Jira import)
 04_test_cases.csv                functional test cases
 04_traceability_matrix.csv       requirement → story → test
-05_demo_script.md                customer demo outline
 diagrams/                        context and use case diagrams (PlantUML source + PNG)
 wireframes/                      ranger form, supervisor queue, partner view
 prototype/                       Node.js prototype and automated tests
