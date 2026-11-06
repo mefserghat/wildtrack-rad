@@ -2,7 +2,7 @@
 
 **A requirements-to-delivery systems engineering project:** from a stakeholder interview to a requirements spec, Agile backlog, system models, a working prototype, and traced test results.
 
-▶️ **[Watch the 4-minute walkthrough](LINK-TO-LOOM-VIDEO)** · 📄 **[Requirements spec](02_requirements_spec.md)** · 🧪 **[Prototype](prototype/)**
+📄 **[Requirements spec](02_requirements_spec.md)** · 🧪 **[Prototype](prototype/)**
 
 ---
 
@@ -25,7 +25,7 @@ I gathered requirements in a simulated customer interview, wrote **33 functional
 | UX collaboration | [Wireframes](wireframes/) |
 | Software concepts: REST API, server-side enforcement | [Prototype](prototype/) |
 | Functional testing and traceability | [Test cases](04_test_cases.csv), [traceability matrix](04_traceability_matrix.csv), [automated tests](prototype/test/api.test.js) |
-| Presenting technical work to non-technical audiences | Walkthrough video (link at the top) |
+| Presenting technical work to non-technical audiences | Plain-language [demo walkthrough](prototype/README.md#demo-walkthrough) |
 
 ## Why this scenario
 

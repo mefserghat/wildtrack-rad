@@ -4,9 +4,8 @@
 |---|---|
 | `context-diagram.puml` / `.png` | System context: WildTrack boundary (iPad app + server subsystems), actors, external systems, and interfaces IF-01 to IF-06 |
 | `use-case-diagram.puml` / `.png` | UML use cases grouped by capability area, each labeled with the FR IDs it traces to |
-| `context-diagram.asta`, `use-case-diagram.asta` | Original Astah versions |
 
-The `.puml` files are the source of truth (diagrams as code). Re-render with PlantUML (`java -jar plantuml.jar -tpng *.puml`) or the PlantUML plugin in Astah/VS Code.
+The `.puml` files are the source of truth (diagrams as code). Re-render with PlantUML (`java -jar plantuml.jar -tpng *.puml`) or import into Astah or VS Code with the PlantUML plugin.
 
 ## Modeling decisions
 
